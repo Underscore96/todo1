@@ -1,20 +1,22 @@
 class Manager{
-    constructor(todoArray){
-        if(!todoArray){
-            const todos = StorageService.loadTodos();
-            if (todos) {
-                this.todoArray = todos;
-            } else {
-                this.todoArray = [];
-            }
-        } else {
-            this.todoArray = todoArray;
-        }
+    constructor(todoArray = []){
+        // if(!todoArray){
+        //     // const todos = StorageService.loadTodos();
+        //     // if (todos) {
+        //     //     this.todoArray = todos;
+        //     // } else {
+        //     //     this.todoArray = [];
+        //     // }
+        //     DBService.getAllTodos().then(todos => this.todoArray = todos);
+        // } else {
+        //     this.todoArray = todoArray;
+        // }
 
-        setInterval(() => {
-            console.log('sto salvando')
-            StorageService.saveData(this.todoArray);
-        }, 5000);
+        // setInterval(() => {
+        //     console.log('sto salvando')
+        //     StorageService.saveData(this.todoArray);
+        // }, 5000);
+        this.todoArray = todoArray;
     }
 
     addToDo(todo){
@@ -36,6 +38,10 @@ class Manager{
     }
 
     deleteTodo(index){
+        const todoToDelete = this.todoArray[index];
+        DBService.deleteTodo(todoToDelete.id).then(() => {
+            this.todoArray.splice(index,1);
+        })
         this.todoArray.splice(index, 1);
         //StorageService.saveData(this.todoArray);
     }

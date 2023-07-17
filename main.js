@@ -6,30 +6,35 @@
 // // } else {
 // //     manager = new Manager();
 // // }
-const testArrayStandard = new MyArray([1,2,3])
+// const testArrayStandard = new MyArray([1,2,3])
 
-const testArrayArgs = MyArray.fromArgs(1,2,3);
+// const testArrayArgs = MyArray.fromArgs(1,2,3);
 
-const obj = {name: 'stefania', age: 27, gender:'female'};
+// const obj = {name: 'stefania', age: 27, gender:'female'};
 
-const testArrayObject = MyArray.fromObject(obj);
+// const testArrayObject = MyArray.fromObject(obj);
 
-console.log(testArrayStandard);
-console.log(testArrayArgs);
-console.log(testArrayObject);
+// console.log(testArrayStandard);
+// console.log(testArrayArgs);
+// console.log(testArrayObject);
 
 
-const array = [1,2,3];
+// const array = [1,2,3];
 
-const array2 = Array.from(obj);
+// const array2 = Array.from(obj);
 
-console.log(array2);
+// console.log(array2);
 
 // console.log(testArray)
 
-let manager = new Manager();
+let manager;
 
-console.log(document);
+DBService.getAllTodos().then(todos => {
+    manager = new Manager(todos);
+    render();
+})
+
+// console.log(document);
 
 function render(){
     
@@ -77,9 +82,14 @@ function render(){
         const deleteBtn = document.createElement('button');
         const deleteNode = document.createTextNode('cancella');
         deleteBtn.addEventListener('click', () => {
-            manager.deleteTodo(i);
-            // StorageService.saveData(manager.todoArray);
-            render();
+
+            DBService.deleteTodo(todo.id).then(() => {
+                manager.deleteTodo(i);
+        
+                render();
+
+            })
+        
         });
         // completeBtn.addEventListener('mouseover', () => div.style.borderWidth = '3px');
         // completeBtn.addEventListener('mouseleave', () => div.style.borderWidth = '1px');
@@ -104,7 +114,7 @@ function render(){
     }
 }
 
-render();
+
 
 // function render2(){
 
